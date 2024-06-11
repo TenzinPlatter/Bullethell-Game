@@ -11,5 +11,5 @@ class Ghost(Npc):
         y = random.randint(0, globals.HEIGHT)
         super().__init__(x, y, "assets/characters/ghost")
         self.health = 1
-        self.moveSpeed = 2
+        self.moveSpeed = 1
 

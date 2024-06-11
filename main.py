@@ -4,6 +4,7 @@ from player import Player
 import globals
 from ghost import Ghost
 import time
+from joystick import Joystick
 
 
 class App:
@@ -14,16 +15,13 @@ class App:
         self.player = Player()
         self.window = pygame.display.set_mode((globals.WIDTH, globals.HEIGHT))
         self.ghosts = [Ghost() for _ in range(5)]
+        self.joystick = None
 
         #game loop
         clock = pygame.time.Clock()
         currentTime = time.time()
         i = 0
         while self.running:
-            if (timeDiff := currentTime - time.time()) != (1/100):
-                print(f"Timediff {timeDiff}")
-
-            print((i := i + 1))
             self.events()
             self.render()
 
@@ -34,7 +32,10 @@ class App:
 
 
     def playerEvents(self, events):
-        self.player.move(events)
+        if self.joystick is not None:
+            unitVec = self.joystick.getMoveVector()
+            # self.player.move(unitVec)
+            #TODO: remove once joystick is fixed
 
     def ghostEvents(self, events):
         for ghost in self.ghosts:
@@ -42,6 +43,8 @@ class App:
 
     def render(self):
         self.window.fill((105, 105, 105))
+        if self.joystick is not None:
+            self.joystick.draw(self.window)
         self.player.draw(self.window)
         self.drawAllEnemies(self.ghosts) 
 
@@ -59,7 +62,14 @@ class App:
             if event.type == pygame.QUIT:
                 self.running = False
                 return
-            
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                self.joystick = Joystick(pygame.mouse.get_pos())
+            elif event.type == pygame.MOUSEBUTTONUP:
+                self.joystick = None
+
+            if self.joystick:
+                self.joystick.setCentre()
+
             self.playerEvents(events)
             self.ghostEvents(events)
 

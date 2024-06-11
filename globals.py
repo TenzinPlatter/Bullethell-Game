@@ -18,3 +18,13 @@ def getSpriteSheet(dirPath):
     for key in sprites.keys():
         sprites[key] = pygame.transform.rotozoom(sprites[key], 0, 2)        
     return sprites
+
+def distanceMagnitude(p1: tuple, p2: tuple):
+    """takes two points of same dimension, returns magnitude of the
+    distance between them"""
+    temp = 0
+    for v1, v2 in zip(p1, p2):
+        diff = v1 - v2
+        temp += diff**2
+
+    return temp**.5
