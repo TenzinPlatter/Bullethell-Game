@@ -19,13 +19,11 @@ class App:
 
         #game loop
         clock = pygame.time.Clock()
-        currentTime = time.time()
         i = 0
         while self.running:
             self.events()
             self.render()
 
-            currentTime = time.time()
             clock.tick(App.FPS)
 
         pygame.quit()
@@ -61,17 +59,16 @@ class App:
         for event in events:
             if event.type == pygame.QUIT:
                 self.running = False
-                return
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 self.joystick = Joystick(pygame.mouse.get_pos())
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.joystick = None
 
-            if self.joystick:
-                self.joystick.setCentre()
+        if self.joystick:
+            self.joystick.setCentre()
 
-            self.playerEvents(events)
-            self.ghostEvents(events)
+        self.playerEvents(events)
+        self.ghostEvents(events)
 
 
 if __name__ == "__main__":
