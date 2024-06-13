@@ -1,6 +1,6 @@
 import pygame
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 1400, 850
 
 def getSpriteSheet(dirPath):
     """returns a dictionary of images for each direction of movement,
@@ -21,7 +21,7 @@ def getSpriteSheet(dirPath):
 
 def distanceMagnitude(p1: tuple, p2: tuple):
     """takes two points of same dimension, returns magnitude of the
-    distance between them"""
+    distance between them. For single vector mag use 0 vector as a point"""
     temp = 0
     for v1, v2 in zip(p1, p2):
         diff = v1 - v2

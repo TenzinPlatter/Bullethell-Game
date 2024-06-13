@@ -13,7 +13,8 @@ class App:
         pygame.init()
         self.running = True
         self.player = Player()
-        self.window = pygame.display.set_mode((globals.WIDTH, globals.HEIGHT))
+        self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        pygame.display.set_caption("GAME!!!!!!!")
         self.ghosts = [Ghost() for _ in range(5)]
         self.joystick = None
 
@@ -32,8 +33,7 @@ class App:
     def playerEvents(self, events):
         if self.joystick is not None:
             unitVec = self.joystick.getMoveVector()
-            # self.player.move(unitVec)
-            #TODO: remove once joystick is fixed
+            self.player.move(unitVec)
 
     def ghostEvents(self, events):
         for ghost in self.ghosts:

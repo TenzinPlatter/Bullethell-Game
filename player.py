@@ -9,15 +9,11 @@ import globals
 class Player:
     def __init__(self):
         # center player spawn
-        """
         self.x = (globals.WIDTH - 32)/2
         self.y = (globals.HEIGHT - 32)/2
-"""
-        self.x = 0
-        self.y = 0
         self.sprites = globals.getSpriteSheet("assets/characters/player") 
         self.currentSprite = self.sprites["S"]
-        self.moveSpeed = 4
+        self.moveSpeed = 3
         self.mouseDown = False
         self.health = 5
         self.movement = [

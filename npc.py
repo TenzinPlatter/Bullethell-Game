@@ -18,7 +18,6 @@ class Npc:
     def move(self, playerX, playerY):
         dx = playerX - self.x
         dy = playerY - self.y
-        print("player x y", playerX, playerY)
         magnitude = (dx**2 + dy**2)**.5
         if magnitude == 0:
             return
