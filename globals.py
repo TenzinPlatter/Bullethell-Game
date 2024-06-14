@@ -2,6 +2,10 @@ import pygame
 
 WIDTH, HEIGHT = 1400, 850
 
+def setSize(coords: tuple):
+    global WIDTH, HEIGHT
+    WIDTH, HEIGHT = coords
+
 def getSpriteSheet(dirPath):
     """returns a dictionary of images for each direction of movement,
     takes in a path to directory with each sprite"""

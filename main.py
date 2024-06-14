@@ -8,12 +8,13 @@ from joystick import Joystick
 
 
 class App:
-    FPS = 100
+    FPS = 60
     def __init__(self):
         pygame.init()
         self.running = True
         self.player = Player()
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        globals.setSize(self.window.get_size())
         pygame.display.set_caption("GAME!!!!!!!")
         self.ghosts = [Ghost() for _ in range(5)]
         self.joystick = None
@@ -59,6 +60,11 @@ class App:
         for event in events:
             if event.type == pygame.QUIT:
                 self.running = False
+            #check for esc press to exit fullscreen window
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.running = False
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 self.joystick = Joystick(pygame.mouse.get_pos())
             elif event.type == pygame.MOUSEBUTTONUP:
