@@ -3,7 +3,7 @@ import math
 from npc import Npc
 import random
 import globals
-
+#test
 
 class Ghost(Npc):
     def __init__(self, x, y):
