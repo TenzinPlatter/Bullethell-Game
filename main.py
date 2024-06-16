@@ -5,9 +5,10 @@ import globals
 from ghost import Ghost
 import time
 from joystick import Joystick
+import random
 
 
-class App:
+class Level:
     FPS = 60
     def __init__(self):
         pygame.init()
@@ -16,7 +17,7 @@ class App:
         self.window = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         globals.setSize(self.window.get_size())
         pygame.display.set_caption("GAME!!!!!!!")
-        self.ghosts = [Ghost() for _ in range(5)]
+        self.ghosts = self.initGhosts()
         self.joystick = None
 
         #game loop
@@ -26,17 +27,19 @@ class App:
             self.events()
             self.render()
 
-            clock.tick(App.FPS)
+            clock.tick(Level.FPS)
 
         pygame.quit()
 
 
-    def playerEvents(self, events):
+    def playerOnLoop(self, events):
         if self.joystick is not None:
             unitVec = self.joystick.getMoveVector()
             self.player.move(unitVec)
+        if self.player.weapon != None:
+            self.player.weaponUpdate()
 
-    def ghostEvents(self, events):
+    def ghostOnLoop(self, events):
         for ghost in self.ghosts:
             ghost.move(self.player.x, self.player.y)
 
@@ -69,13 +72,30 @@ class App:
                 self.joystick = Joystick(pygame.mouse.get_pos())
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.joystick = None
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_w:
+                    if self.player.weapon:
+                        self.player.shoot()
 
         if self.joystick:
             self.joystick.setCentre()
 
-        self.playerEvents(events)
-        self.ghostEvents(events)
+        self.playerOnLoop(events)
+        self.ghostOnLoop(events)
+
+    def initGhosts(self):
+        ghosts = []
+        random.seed(1)
+        for i in range(5):
+            x = random.randrange(0, globals.WIDTH)
+            y = random.randrange(0, globals.HEIGHT)
+            center = (globals.WIDTH - 32)/2, (globals.HEIGHT - 32)/2            
+            while globals.distanceMagnitude((x, y), center) < 100:
+                x = random.randrange(0, globals.WIDTH)
+                y = random.randrange(0, globals.HEIGHT)
+            ghosts.append(Ghost(x, y)) 
+        return ghosts
 
 
 if __name__ == "__main__":
-    App()
+    Level()
